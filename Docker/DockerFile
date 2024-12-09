@@ -8,11 +8,5 @@ RUN apt-get install -y cyvcf2
 RUN apt-get install -y bcftools
 
 # Convenience commands
-ADD align.py /usr/local/bin/align.py
-RUN chmod +x /usr/local/bin/align.py
-RUN ln -s /usr/local/bin/align.py /usr/local/bin/align
-CMD ["/usr/local/bin/align"]
-
-# Integration tests
-ADD test /tmp/test
-RUN bats /tmp/test
+ADD ../Scripts/pipelinefile.ipynb pipelinefile.ibynb
+RUN chmod +x pipelinefile.ibynb
