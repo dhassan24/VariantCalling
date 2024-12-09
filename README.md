@@ -35,3 +35,34 @@ Danya Hassan GENE 5120 12/9/2024
 ```
 !gzip -df Human.Variants.vcf.gz
 ```
+```
+!pip install cyvcf2
+vcf_path = 'Human.Variants.vcf'
+
+## This is a new python library that is a high-performance Python library for reading and manipulating Variant Call Format (VCF) files.
+#It is a Cython wrapper around the htslib C library, providing a fast and efficient way to access VCF data in Python.
+```
+```
+import cyvcf2
+
+# Create a VCF reader object
+vcf_reader = cyvcf2.VCF(vcf_path)
+#using the cyvcf2.VCF function on vcf_path
+
+with open('humanvariants.tsv', 'w') as file:
+# Loop through each variant in the VCF file
+    for variant in vcf_reader:
+    # Access various properties of the variant
+        genotype = variant.gt_types[0]
+        data_string = f"{variant.CHROM}\t{variant.POS}\t{variant.ID}\t{variant.REF}\t{','.join(variant.ALT)}\t{variant.QUAL}\t{variant.FILTER}\t{genotype}\n"
+        #For every row/variant, make the genotype and data_string
+        # Write the data string to the file
+        file.write(data_string)
+
+#Here, we are making a text file called humanvariants.tsv
+```
+```
+import pandas
+columns = ['CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'GENOTYPE']
+df1 = pandas.read_csv("humanvariants.tsv", delimiter = "\t", header=None, names=columns)
+```
